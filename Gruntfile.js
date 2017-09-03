@@ -36,7 +36,13 @@ module.exports = function (grunt) {
     sass : {
       options: {
         sourceMap: true,
-        includePaths : ['<%= yeoman.bower_components %>/sass-mediaqueries/']
+        includePaths : [
+          '<%= yeoman.bower_components %>/sass-mediaqueries/',
+          require("bourbon").includePaths,
+          require("bourbon-neat").includePaths,
+          require('bourbon-bitters').includePaths,
+          require('node-font-awesome').scssPath
+        ]
       },
       dist: {
         files : {
@@ -72,7 +78,7 @@ module.exports = function (grunt) {
       },
       sass: {
         files: ['<%= yeoman.app %>/styles/scss/{,*/}*.scss'],
-        task: ['sass']
+        tasks: ['sass','newer:copy:styles', 'postcss']
       },
       livereload: {
         options: {
@@ -418,6 +424,14 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      fonts : {
+        expand: true,
+        dest: '<%= yeoman.app %>/fonts',
+        src: [
+          require('node-font-awesome').fonts
+        ]
+
       }
     },
 
@@ -455,6 +469,7 @@ module.exports = function (grunt) {
       'clean:server',
       'wiredep',
       'concurrent:server',
+      'copy:fonts',
       'sass',
       'postcss:server',
       'connect:livereload',
@@ -481,6 +496,7 @@ module.exports = function (grunt) {
     'wiredep',
     'useminPrepare',
     'concurrent:dist',
+    'copy:fonts',
     'sass',
     'postcss',
     'ngtemplates',

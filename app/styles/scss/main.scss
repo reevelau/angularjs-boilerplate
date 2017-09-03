@@ -1,1 +1,26 @@
-@import "media-queries";
+@import 'bourbon';
+@import "bitters"; // bitters
+@import "neat";
+
+@import 'media-queries';
+@import './partials/reset';
+@import './partials/mediadef';
+@import './partials/touchmenu';
+
+body {
+    font: 100% Helvetic, sans-serif;
+    background-color: #00ff00;
+}
+
+.mediaquerytest {
+    width: 100vw;
+    height: 100px;
+
+    @include phone {
+        background-color: red;    
+    }
+
+    @include tablet {
+        background-color: yellow;
+    }
+}

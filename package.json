@@ -32,6 +32,7 @@
     "karma": "^1.7.1",
     "karma-jasmine": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.4",
+    "node-font-awesome": "^1.0.2",
     "phantomjs-prebuilt": "^2.1.15",
     "time-grunt": "^1.0.0"
   },
@@ -40,5 +41,11 @@
   },
   "scripts": {
     "test": "karma start test/karma.conf.js"
+  },
+  "dependencies": {
+    "bourbon": "^4.3.4",
+    "bourbon-bitters": "^1.2.1",
+    "bourbon-neat": "^1.9.0",
+    "font-awesome": "^4.7.0"
   }
 }
