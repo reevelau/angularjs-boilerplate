@@ -1,0 +1,13 @@
+
+
+@mixin phone {
+    @include mq($max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @include mq($min-width: 768px){
+        @content;
+    }
+}
