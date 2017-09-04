@@ -427,11 +427,9 @@ module.exports = function (grunt) {
       },
       fonts : {
         expand: true,
-        dest: '<%= yeoman.app %>/fonts',
-        src: [
-          require('node-font-awesome').fonts
-        ]
-
+        dest: 'app/fonts',
+        src: require('node-font-awesome').fonts,
+        flatten: true
       }
     },
 

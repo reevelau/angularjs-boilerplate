@@ -5,11 +5,38 @@ $header-grid: (
     gutter : 10px,
 );
 
+$touch-menu-width: 280px;
+$icon-font-size: 4em;
+$icon-font-padding: 7px;
+
 .nav-header {
     width: 100vw;
     height: 56px;
     background-color: #3F51B5;
 
+    .control-area {
+        position: absolute;
+        background-color: yellow;
+        width: 100%;
+        //height: 100%;
+
+        font-size: $icon-font-size; 
+        .hamburger-trigger {
+
+        }
+
+        span {
+            @include padding($icon-font-padding $icon-font-padding $icon-font-padding $icon-font-padding);
+        }
+
+        @include phone {
+            left: 0px;
+        }
+
+        @include tablet {
+            left: $touch-menu-width;
+        }
+    }
 }
 
 .touch-menu {
@@ -19,12 +46,12 @@ $header-grid: (
     background-color: white;
 
     @include phone {
-        width: 280px; // using vw?
-        left: -280px;
+        width: $touch-menu-width; // using vw?
+        left: -$touch-menu-width;
     }
 
     @include tablet {
-        width:  300px;
+        width:  $touch-menu-width;
         left: 0;
     }
 }
