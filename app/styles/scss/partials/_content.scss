@@ -1,0 +1,14 @@
+@import "grid-settings";
+@import "neat";
+
+div.content-container {
+    @include outer-container;
+  
+    div.parent-element {
+        @include span-columns(10);
+  
+        div.element {
+            @include span-columns(2 of 10);
+        }
+    }
+}

@@ -1,11 +1,11 @@
 @import 'bourbon';
 @import "bitters"; // bitters
-@import "neat";
 
 @import 'media-queries';
 @import './partials/reset';
 @import './partials/mediadef';
 @import './partials/touchmenu';
+@import './partials/content';
 
 body {
     font: 100% Helvetic, sans-serif;

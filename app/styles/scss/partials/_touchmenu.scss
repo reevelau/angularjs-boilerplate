@@ -1,9 +1,15 @@
 @import 'mediadef';
 
+$header-grid: (
+    columns: 3,
+    gutter : 10px,
+);
+
 .nav-header {
     width: 100vw;
     height: 56px;
     background-color: #3F51B5;
+
 }
 
 .touch-menu {
