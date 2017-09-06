@@ -1,57 +1,79 @@
 @import 'mediadef';
 
-$header-grid: (
-    columns: 3,
+$header-grid : (
+    columns : 3,
     gutter : 10px,
 );
 
-$touch-menu-width: 280px;
-$icon-font-size: 4em;
-$icon-font-padding: 7px;
+$touch-menu-width : 280px;
+$icon-font-size : 3em;
+$icon-font-padding : 12px;
+$nav-bar-height : 56px;
 
 .nav-header {
-    width: 100vw;
-    height: 56px;
-    background-color: #3F51B5;
+    width : 100vw;
+    height : $nav-bar-height;
+    background-color:  #3F51B5;
 
     .control-area {
-        position: absolute;
-        background-color: yellow;
-        width: 100%;
-        //height: 100%;
+        position : absolute;
+        background-color : yellow;
+        width : 100%;
+        height: $nav-bar-height;
 
-        font-size: $icon-font-size; 
+        font-size : $icon-font-size; 
+
         .hamburger-trigger {
-
-        }
-
-        span {
             @include padding($icon-font-padding $icon-font-padding $icon-font-padding $icon-font-padding);
         }
 
         @include phone {
-            left: 0px;
+            left : 0px;
         }
 
         @include tablet {
-            left: $touch-menu-width;
+            left : $touch-menu-width;
         }
     }
 }
 
-.touch-menu {
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    background-color: white;
+.nav-container {
+    position : absolute;
 
     @include phone {
-        width: $touch-menu-width; // using vw?
-        left: -$touch-menu-width;
+        left : 0px
     }
 
     @include tablet {
-        width:  $touch-menu-width;
-        left: 0;
+        left : $touch-menu-width;
+    }
+}
+
+.nav-footer {
+    position : absolute;
+
+    @include phone {
+        left : 0px;
+    }
+
+    @include tablet {
+        left : $touch-menu-width;
+    }
+}
+
+.touch-menu {
+    height : 100vh;
+    position : absolute;
+    top : 0;
+    background-color : green;
+
+    @include phone {
+        width : $touch-menu-width; // using vw?
+        left : -$touch-menu-width;
+    }
+
+    @include tablet {
+        width :  $touch-menu-width;
+        left : 0;
     }
 }
