@@ -8,18 +8,18 @@ $header-grid : (
 $touch-menu-width : 280px;
 $icon-font-size : 3em;
 $icon-font-padding : 12px;
-$nav-bar-height : 56px;
+$nav-header-bar-height : 56px;
 
 .nav-header {
     width : 100vw;
-    height : $nav-bar-height;
+    height : $nav-header-bar-height ;
     background-color:  #3F51B5;
 
     .control-area {
         position : absolute;
         background-color : yellow;
         width : 100%;
-        height: $nav-bar-height;
+        height: $nav-header-bar-height ;
 
         font-size : $icon-font-size; 
 
@@ -39,13 +39,18 @@ $nav-bar-height : 56px;
 
 .nav-container {
     position : absolute;
-
+    background-color : red;
+    
     @include phone {
-        left : 0px
+        left : 0px;
+        width : 100vw;
+        height : calc(100vh - #{$nav-header-bar-height}); 
     }
 
     @include tablet {
         left : $touch-menu-width;
+        width : calc(100vw - #{$touch-menu-width}); // #{} interpolation
+        height : calc(100vh - #{$nav-header-bar-height}); 
     }
 }
 
@@ -66,6 +71,8 @@ $nav-bar-height : 56px;
     position : absolute;
     top : 0;
     background-color : green;
+    z-index: 9998;
+    transition: all 0.3s ease-out !important;
 
     @include phone {
         width : $touch-menu-width; // using vw?
@@ -76,4 +83,12 @@ $nav-bar-height : 56px;
         width :  $touch-menu-width;
         left : 0;
     }
+}
+
+.harmmer-draggerable {
+    position : absolute;
+    z-index : 9999;
+    background-color : brown;
+    height : 100px;
+    width : 100px;
 }
