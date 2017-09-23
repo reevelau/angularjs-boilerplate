@@ -40,7 +40,14 @@ $nav-header-bar-height : 56px;
 .nav-container {
     position : absolute;
     background-color : red;
-    
+    transition: all 0.3s ease-out !important; 
+
+    .test {
+        width: 100vw;
+        left: 0;
+        top: $nav-header-bar-height;
+    }
+
     @include phone {
         left : 0px;
         width : 100vw;
@@ -74,6 +81,14 @@ $nav-header-bar-height : 56px;
     z-index: 9998;
     transition: all 0.3s ease-out !important;
 
+    .touch-menu-handle {
+        position: absolute;
+        width: 20px;
+        height: 100vh;
+        right: -20px;
+        background-color: red;
+    }
+
     @include phone {
         width : $touch-menu-width; // using vw?
         left : -$touch-menu-width;
@@ -82,13 +97,25 @@ $nav-header-bar-height : 56px;
     @include tablet {
         width :  $touch-menu-width;
         left : 0;
+
     }
+
+    
 }
 
 .harmmer-draggerable {
     position : absolute;
-    z-index : 9999;
+    left: 200px;
+    z-index : 99999;
     background-color : brown;
     height : 100px;
     width : 100px;
+
+    .right-test {
+        position: absolute;
+        width: 20px;
+        height: 100px;
+        right: -20px;
+        background-color: yellow;
+    }
 }
