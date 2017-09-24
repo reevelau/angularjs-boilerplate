@@ -1,5 +1,5 @@
-<div class="touch-menu" 
-  hm-panmove="onHammer($event)" 
+<div id="draggable" class="touch-menu" 
+  hm-panmove="onPanMove($event)" 
   hm-panstart="onPanStart($event)" 
   hm-panend="onPanEnd($event)" 
   >
@@ -9,7 +9,7 @@
 
 <div class="nav-header">
     <div class="control-area">
-      <div class="">
+      <div class="" ng-click="onClick()">
         <span class="hamburger-trigger fa fa-bars"></span>
       </div>
     </div>

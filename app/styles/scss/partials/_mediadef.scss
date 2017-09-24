@@ -1,13 +1,14 @@
 
+$phone-table-breakpoint: 600px;
 
 @mixin phone {
-    @include mq($max-width: 768px) {
+    @include mq($max-width: $phone-table-breakpoint) {
         @content;
     }
 }
 
 @mixin tablet {
-    @include mq($min-width: 768px){
+    @include mq($min-width: $phone-table-breakpoint){
         @content;
     }
 }
