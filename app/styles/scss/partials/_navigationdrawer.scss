@@ -42,12 +42,6 @@ $nav-header-bar-height : 56px;
     background-color : red;
     transition: all 0.3s ease-out !important; 
 
-    .test {
-        width: 100vw;
-        left: 0;
-        top: $nav-header-bar-height;
-    }
-
     @include phone {
         left : 0px;
         width : 100vw;
@@ -61,30 +55,14 @@ $nav-header-bar-height : 56px;
     }
 }
 
-.nav-footer {
-    position : absolute;
-
-    @include phone {
-        left : 0px;
-    }
-
-    @include tablet {
-        left : $touch-menu-width;
-    }
-}
-
-.no-transition {
-    transition: none !important;
-}
-
-.touch-menu {
+.nav-touch-menu {
     height : 100vh;
     position : absolute;
     top : 0;
     background-color : green;
     z-index: 9998;
 
-    .touch-menu-handle {
+    .nav-touch-menu-handle {
         position: absolute;
         width: 20px;
         height: 100vh;
@@ -105,7 +83,7 @@ $nav-header-bar-height : 56px;
     }
 }
 
-.touch-menu-mask {
+.nav-touch-menu-mask {
 
     @include phone {
         width: 100%;
@@ -123,19 +101,26 @@ $nav-header-bar-height : 56px;
     }
 }
 
-.harmmer-draggerable {
-    position : absolute;
-    left: 200px;
-    z-index : 99999;
-    background-color : brown;
-    height : 100px;
-    width : 100px;
+.nav-content-area {
 
-    .right-test {
-        position: absolute;
-        width: 20px;
-        height: 100px;
-        right: -20px;
-        background-color: yellow;
+    @include phone {
+        left: 0;
+    }
+
+    @include tablet {
+        left: $touch-menu-width;
     }
 }
+
+
+.test {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    
+    z-index: 99999;
+    
+
+
+}
+

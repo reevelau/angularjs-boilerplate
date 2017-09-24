@@ -206,8 +206,8 @@ angular.module('navdrawerApp')
           }
         };
 
-        var draggableMenu = element[0].querySelector('.touch-menu');
-        var mask = element[0].querySelector('.touch-menu-mask');
+        var draggableMenu = element[0].querySelector('.nav-touch-menu');
+        var mask = element[0].querySelector('.nav-touch-menu-mask');
 
         scope.menu = new Menu(draggableMenu, mask);
         
