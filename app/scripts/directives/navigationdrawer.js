@@ -46,29 +46,20 @@ angular.module('navdrawerApp')
       
       link: function postLink(scope, element, attrs) {
 
-        scope.isPhone = false;
-
         function init(){
           var phoneTabletBreak = 600;
           
-          if(window.outerWidth > phoneTabletBreak)
-          {
+          if(window.outerWidth > phoneTabletBreak){
             // tablet form
-            scope.lastPan.endX = 0;
-
-            scope.isPhone = false;
-            scope.menu.moveTo(0);
-            scope.menu.isPhone = false;
+            scope.menu.setMenuType(false);
+            
           }
-          else
-          {
+          else{
             // phone
-            scope.lastPan.endX = 280;
-
-            scope.isPhone = true;
-            scope.menu.moveTo(scope.lastPan.endX);
-            scope.menu.isPhone = true;
+            scope.menu.setMenuType(true);
           }
+
+          scope.menu.open(false);
         }
         
 
@@ -79,21 +70,27 @@ angular.module('navdrawerApp')
           init();
         });
 
-        function Menu(draggable){
-          if(! draggable instanceof HTMLElement)
+        function Menu(menuDiv, maskDiv){
+          if(! menuDiv instanceof HTMLElement)
             return;
           
+          if(! maskDiv instanceof HTMLElement)
+            return;
+
           var _self = this;
-          this.draggable = draggable;
-          this.width = draggable.clientWidth;
+          this.menuDiv = menuDiv;
+          this.maskDiv = maskDiv;
+          this.width = menuDiv.clientWidth;
           this.isPhone = false;
+          this.translatingX = 0;
           this.translatedX = 0;
+          var menuZIndex = window.getComputedStyle(menuDiv).zIndex;
 
           this.normalizeMoveRange = function (x){
             
             var checkX = x;
             var factor = 1;
-            if(!scope.isPhone){
+            if(!_self.isPhone){
               checkX = x * -1;
               factor = -1;
             }
@@ -101,68 +98,99 @@ angular.module('navdrawerApp')
             if(factor * checkX > _self.width)
               return factor * _self.width;
             
-            console.log(checkX);
             if(checkX < 0)
               return 0;
             
             return factor * checkX;
-
-            /*
-            if(scope.isPhone){
-              // range 0 <-> _self.width
-              if(x > _self.width)
-                return _self.width;
-              
-              if(x < 0)
-                return 0;
-              
-              return x;
-            }
-            else{
-              // range - _self.width <-> 0
-              if(x < - _self.width)
-                return - _self.width;
-            
-              if(x > 0)
-                return 0;
-    
-              return x;
-            }
-            */
           }; 
 
-          this.moveTo = function (translatex){
+          var setMaskOpacity = function(newMenuPos){
+            if(!_self.isPhone)
+              return;
+            
+            _self.maskDiv.style.zIndex = menuZIndex -1;
+            var opacity = parseFloat((newMenuPos / _self.width) * 0.8);
+            _self.maskDiv.style.opacity = opacity;
+          }
+
+          this.moveTo = function (translatex, animate){
+            if(animate){
+              _self.menuDiv.style.transition = `all 0.3s ease-out`;
+            }
+            else{
+              _self.menuDiv.style.transition = 'none';
+            }
+
             var toX = _self.normalizeMoveRange(translatex);
-            _self.translatedX = toX;
+            _self.translatingX = toX;
 
-            _self.draggable.style.transform = `translate3d( ${toX}px, 0, 0)`;
+            _self.menuDiv.style.transform = `translate3d( ${toX}px, 0, 0)`;
+
+            setMaskOpacity(toX);
           }
 
-          this.close = function(){
+          this.moveByDelta = function(deltaX){
+            _self.moveTo(_self.translatedX + deltaX, true);
+          }
+
+          
+
+          this.close = function(animate){
             if(_self.isPhone){
-              _self.moveTo(0);
+              _self.moveTo(0, animate);
             }
             else{
-              _self.moveTo(-1 * _self.width)
+              _self.moveTo(-1 * _self.width, animate)
             }
+            _self.released();
+
+            _self.maskDiv.style.zIndex = -1;
           }
 
-          this.open = function(){
+          this.open = function(animate){
             if(_self.isPhone){
-              _self.moveTo(_self.width);
+              _self.moveTo(_self.width, animate);
+
+              _self.maskDiv.style.zIndex = menuZIndex -1; 
             }
             else{
-              _self.moveTo(0);
+              _self.moveTo(0, animate);
             }
+            _self.released();
+
+
           }
 
-          var draggableX = function(){
-            //_self.draggable.
-          }
+          this.released = function(){
+            _self.translatedX = _self.translatingX;
+            
+          };
+
+          this.releaseWithDelta = function(deltaX){
+            var xEnd = _self.normalizeMoveRange(_self.translatedX + deltaX);
+            
+            var breakPointRatio = 1 /  3;
+            var breakPoint;
+            var factor = 1;
+            if(scope.menu.isPhone){
+              breakPoint = _self.width * (1 - breakPointRatio);
+            }
+            else{
+              breakPoint = -1 * _self.width * breakPointRatio;
+              factor = -1;
+            }
+
+            if(xEnd < breakPoint  ){
+              _self.close(true);
+            }
+            else{
+              _self.open(true);
+            }
+            _self.released();
+
+          };
 
           this.isOpen = function(){
-            console.log(`menu x: ${_self.translatedX}`);
-
             if(_self.isPhone && _self.translatedX === _self.width){
               return true;
             }
@@ -172,71 +200,20 @@ angular.module('navdrawerApp')
 
             return false;
           }
+
+          this.setMenuType = function(isPhone){
+            _self.isPhone = isPhone;
+          }
         };
 
-        function PanMove(menuWidth){
-          var _self = this;
-          var endX = 0; // assuming
-          this.menuWidth = menuWidth;
-
-          this.normalizeMoveRange = function (x){
-            var checkX = x;
-            var factor = 1;
-            if(!scope.isPhone){
-              checkX = x * -1;
-              factor = -1;
-            }
-
-            if(checkX > _self.width)
-              return factor * _self.width;
-            
-            if(checkX < 0)
-              return 0;
-            
-            return factor * checkX;
-          };
-          
-          this.tabletEnd = function(deltaX){
-            var xEnd = _self.normalizeMoveRange(deltaX);
-            console.log(`pan end ${xEnd}`);
-            if(xEnd < -scope.menu.width /3  )
-            {
-              // go to -scope.menu.width
-              scope.menu.moveTo(-scope.menu.width);
-              //scope.lastPan.endX = -scope.menu.width;
-            }
-            else
-            {
-              // go to 0
-              scope.menu.moveTo(0);
-              //scope.lastPan.endX = 0;
-            }
-          }
-
-          this.moving = function(deltaX){
-
-          }
-          this.moveEnd = function(deltaX){
-
-          }
-        }
-
-        //console.log('postLink');
-        //console.log(element);
         var draggableMenu = element[0].querySelector('.touch-menu');
-        scope.lastPan = {};
-        scope.lastPan.endX = 0;
+        var mask = element[0].querySelector('.touch-menu-mask');
 
-        scope.menu = new Menu(draggableMenu);
+        scope.menu = new Menu(draggableMenu, mask);
         
 
-
         scope.onPanMove = function onHammer (event) {
-          console.log(`panMove deltaX ${event.deltaX}, endX ${scope.lastPan.endX}`);
-          //var translatex = scope.lastPan.endX + event.deltaX;
-          var translatex = scope.lastPan.endX + event.deltaX;
-          
-          scope.menu.moveTo(translatex);
+          scope.menu.moveByDelta(event.deltaX);
         };
 
         scope.onPanStart = function onPanStart(event){
@@ -244,56 +221,19 @@ angular.module('navdrawerApp')
         };
 
         scope.onPanEnd = function onPanEnd(event){
-          //var bounds = element[0].getBoundingClientRect();
-          //scope.lastPan.endX  = scope.lastPan.endX + event.deltaX;
-          console.log(`scope.lastPan.endX ${scope.lastPan.endX}`);
-          var xEnd = scope.menu.normalizeMoveRange(scope.lastPan.endX + event.deltaX);
-          console.log(`pan end ${xEnd}`);
-
-          var breakPointRatio = 1 /  3;
-          var breakPoint;
-          var factor = 1;
-          if(scope.isPhone){
-            breakPoint = scope.menu.width * (1 - breakPointRatio);
-          }
-          else{
-            breakPoint = -1 * scope.menu.width * breakPointRatio;
-            factor = -1;
-          }
-
-
-          console.log(`isPhone(${scope.isPhone}) xEnd(${xEnd}) < breakPoint(${breakPoint})`);
-          if(xEnd < breakPoint  )
-          {
-            // go to -scope.menu.width
-            if(scope.isPhone){
-              //scope.menu.moveTo(0);
-              scope.lastPan.endX = 0;
-            }
-            else {
-              //scope.menu.moveTo( factor * scope.menu.width);
-              scope.lastPan.endX = factor * scope.menu.width;
-            }
-            scope.menu.close();
-          }
-          else
-          {
-            // go to 0
-            if(scope.isPhone){
-              //scope.menu.moveTo(scope.menu.width);
-              scope.lastPan.endX = scope.menu.width;
-            }
-            else{
-              //scope.menu.moveTo(0);
-              scope.lastPan.endX = 0;
-            }
-            scope.menu.open();
-          }
+          scope.menu.releaseWithDelta(event.deltaX);
         };
          
         scope.onClick = function onClick(){
           console.log('click');
           console.log( `scope.menu.isOpen(): ${scope.menu.isOpen()}`);
+          if(scope.menu.isOpen()){
+            scope.menu.close(true);
+          }
+          else{
+            scope.menu.open(true);
+          }
+
         }
 
         init();

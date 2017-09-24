@@ -73,19 +73,23 @@ $nav-header-bar-height : 56px;
     }
 }
 
+.no-transition {
+    transition: none !important;
+}
+
 .touch-menu {
     height : 100vh;
     position : absolute;
     top : 0;
     background-color : green;
     z-index: 9998;
-    transition: all 0.3s ease-out !important;
 
     .touch-menu-handle {
         position: absolute;
         width: 20px;
         height: 100vh;
         right: -20px;
+        opacity: 0;
         background-color: red;
     }
 
@@ -99,8 +103,24 @@ $nav-header-bar-height : 56px;
         left : 0;
 
     }
+}
 
-    
+.touch-menu-mask {
+
+    @include phone {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #000;
+        opacity: 1.0;
+        z-index:  -1;
+    }
+
+    @include tablet {
+        display: none;
+    }
 }
 
 .harmmer-draggerable {
