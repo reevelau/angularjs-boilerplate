@@ -5,15 +5,37 @@
   >
     
   <div class="nav-touch-menu-handle"></div>
+
+  <div class="inner-header">
+      Touch Menu
+    <span>Like Android</span>
+  </div>
+  <ul class="menu-items">
+    <li>
+      <a href="">
+        <i class="fa fa-github"></i>
+        Github</a>
+    </li>
+    <li>
+      <a href="">
+        <i class="fa fa-envelope"></i>
+        email</a>
+    </li>
+  </ul>
 </div>
 
 <div class="nav-touch-menu-mask" ng-click="onClick()">
 </div>
 
-<div class="nav-header">
-    <div class="control-area">
+<div class="nav-header ">
+    <div id="control" class="nav-content-area nav-left-control-area">
       <div class="" ng-click="onClick()">
         <span class="hamburger-trigger fa fa-bars"></span>
+      </div>
+    </div>
+    <div class="nav-right-control-area">
+      <div>
+        <span class="right-trigger fa fa-times-circle"></span>
       </div>
     </div>
 </div>

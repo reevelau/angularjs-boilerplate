@@ -11,29 +11,42 @@ $icon-font-padding : 12px;
 $nav-header-bar-height : 56px;
 
 .nav-header {
-    width : 100vw;
+    width : 100%;
     height : $nav-header-bar-height ;
     background-color:  #3F51B5;
 
-    .control-area {
+    .nav-left-control-area {
         position : absolute;
         background-color : yellow;
-        width : 100%;
+        width : 50px;
         height: $nav-header-bar-height ;
-
         font-size : $icon-font-size; 
-
         .hamburger-trigger {
             @include padding($icon-font-padding $icon-font-padding $icon-font-padding $icon-font-padding);
         }
+    }
 
-        @include phone {
-            left : 0px;
+    .nav-right-control-area {
+        position: absolute;
+        background-color: yellow;
+        width: 50px;
+        height: $nav-header-bar-height;
+        font-size: $icon-font-size;
+        right: 0px;
+        //transform: translate3d( -100px, 0, 0);
+        .right-trigger {
+            animation: rotation 2s linear 0s infinite;
+            @include padding($icon-font-padding $icon-font-padding $icon-font-padding $icon-font-padding);
         }
+    }
+}
 
-        @include tablet {
-            left : $touch-menu-width;
-        }
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
     }
 }
 
@@ -59,7 +72,7 @@ $nav-header-bar-height : 56px;
     height : 100vh;
     position : absolute;
     top : 0;
-    background-color : green;
+    background-color : white;
     z-index: 9998;
 
     .nav-touch-menu-handle {
@@ -102,6 +115,8 @@ $nav-header-bar-height : 56px;
 }
 
 .nav-content-area {
+    width: 100%;
+    //padding: 20px;
 
     @include phone {
         left: 0;
@@ -109,6 +124,7 @@ $nav-header-bar-height : 56px;
 
     @include tablet {
         left: $touch-menu-width;
+        transition: all 0.3s ease-out !important; 
     }
 }
 

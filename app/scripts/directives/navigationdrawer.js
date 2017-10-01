@@ -124,7 +124,23 @@ angular.module('navdrawerApp')
             var toX = _self.normalizeMoveRange(translatex);
             _self.translatingX = toX;
 
-            _self.menuDiv.style.transform = `translate3d( ${toX}px, 0, 0)`;
+            var transformValue = `translate3d( ${toX}px, 0, 0)`;
+
+            _self.menuDiv.style.transform = transformValue;
+
+            //document.getElementById('control').style.transform = transformValue;
+            if(!_self.isPhone){
+              var matches = document.querySelectorAll('.nav-content-area');
+              matches.forEach(function(ele){
+                ele.style.transform = transformValue;
+              });
+            }
+            else{
+              var matches = document.querySelectorAll('.nav-content-area');
+              matches.forEach(function(ele){
+                ele.style.transform = '';
+              });
+            }
 
             setMaskOpacity(toX);
           }
